@@ -14,15 +14,67 @@ get_flashed_messages() %}
 <br />
 
 <div class="shadow p-3 mb-5 bg-body rounded">
-  <h2>{{ post.title }}<br /></h2>
-  By: {{ post.poster.name }}<br />
-  {{ post.poster.email }}<br />
-  {{ post.slug }}<br />
-  Date: {{ post.date_posted }}<br />
-  Description: {{ post.content | safe}}<br /><br />
-  {% if post.poster.about_author %} {{post.poster.about_author}} {%endif%}
+  <h2>{{ post.title }}</h2>
+  <small
+    >By: {{ post.poster.name }}<br />
+    {{ post.date_posted }}</small
+  >
+  <br /><br />
+
+  {{ post.content|safe }}<br /><br />
+
+  <div class="card mb-3">
+    <div class="row no-gutters">
+      <div class="col-md-1">
+        {% if post.poster.profile_pic %}
+        <img
+          src="{{ url_for('static', filename='images/' + post.poster.profile_pic)}}"
+          width="75"
+          align="left"
+          class="rounded-circle"
+        />
+        {% else %}
+        <img
+          src="{{ url_for('static', filename='images/deafault.jpg')}}"
+          width="100"
+          align="left"
+          class="rounded-circle"
+        />
+        {% endif %}
+      </div>
+
+      <div class="col-md-10">
+        <div class="card-body">
+          <h5 class="card-title">{{ post.poster.name }}</h5>
+          <p class="card-text">
+            {% if post.poster.about_author %} {{ post.poster.about_author }} {%
+            else %} Author has no about profile yet... {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <h5>Comments</h5>
+  <br />
+  {%for comment in comments%} {{comment.comment}} {{comment.date_commented}}
+  {{comment.poster_id}} {%endfor%}
+
+  <br />
+  <form class="input-group mb-3" method="POST">
+    <input
+      type="text"
+      id="text"
+      name="text"
+      class="form-control"
+      placeholder="Comment something!"
+    />
+    <button type="submit" class="btn btn-primary">Comment</button>
+  </form>
 </div>
-{% if post.poster_id == current_user.id%}
+
+{% if post.poster_id == current_user.id %}
+
 <a
   href="{{ url_for('edit_post', id=post.id)}}"
   class="btn btn-outline-secondary btn-sm"
@@ -34,10 +86,11 @@ get_flashed_messages() %}
   class="btn btn-outline-danger btn-sm"
   >Delete Post</a
 >
-{% endif%}
+
+{% endif %}
+
 <a href="{{ url_for('posts')}}" class="btn btn-outline-secondary btn-sm"
-  >Back to Post</a
+  >Back To Blog</a
 >
 
-<br />
 {% endblock %}

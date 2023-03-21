@@ -1,6 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 
 <h2>Admin Area</h2>
-<p>Do some Admin-y type things here...</p>
-
-{% endblock %}
+<br /><br />
+<a class="nav-link" href="{{ url_for('add_user')}}"><h5>Manage Users</h5></a>
+<br /><br />
+<a class="nav-link" href="{{ url_for('posts')}}"><h5>Manage Posts</h5></a>
+<br /><br />
+<a class="nav-link" href="{{ url_for('posts')}}"><h5>Manage Comments</h5></a>
+{%endblock %}

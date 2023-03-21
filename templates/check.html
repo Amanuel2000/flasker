@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content%} {% if comment %}
+<p>{{comment}}</p>
+
+{%else%}
+<h4>You can comment here</h4>
+<br />
+<form class="row g-3" method="POST">
+  {{form.hidden_tag() }} {{form.comment.label(class="form-label")}}
+  <br />
+  {{form.comment(class="form-control")}}
+  <br />
+
+  <div class="col-auto">{{form.submit(class="btn btn-primary")}}</div>
+</form>
+
+{%endif%} {% endblock %}

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CommentBox</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="info">
+      <textarea id="example" placeholder="Hey! Say Something..."></textarea
+      ><br />
+      <input id="sent" type="submit" value="Send" />
+    </div>
+    <p id="para"></p>
+    <script>
+      window.onclick = function (e) {
+        var id = e.target.id;
+        if (id === "sent") {
+          var txt = document.getElementById("example").value;
+          $("#para").empty().append(txt);
+        }
+      };
+    </script>
+  </body>
+</html>

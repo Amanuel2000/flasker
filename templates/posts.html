@@ -12,23 +12,24 @@ get_flashed_messages() %}
 {% endfor %}
 
 <br />
-
 {% for post in posts %}
 <div class="shadow p-3 mb-5 bg-body rounded">
-  <h2><a href="{{ url_for('post', id=post.id)}}"> {{ post.title }}</a></h2>
-  By: {{ post.poster.name }}<br />
-  {{ post.poster.email }}<br />
-  {{ post.slug }}<br />
-  Date: {{ post.date_posted }}<br />
-  Description: {{ post.content |safe}}
+  <h2><a href="{{ url_for('post', id=post.id)}}"></a> {{ post.title }}</h2>
+  <small
+    >By:{{ post.poster.name }}<br />
+    {{ post.date_posted }}</small
+  >
   <br /><br />
 
+  {{ post.content|safe }}
+  <br /><br />
   <a
     href="{{ url_for('post', id=post.id)}}"
     class="btn btn-outline-secondary btn-sm"
     >View Post</a
   >
-  {% if post.poster_id == current_user.id%}
+
+  {% if post.poster_id == current_user.id or current_user.id == 17 %}
   <a
     href="{{ url_for('edit_post', id=post.id)}}"
     class="btn btn-outline-secondary btn-sm"
@@ -40,10 +41,17 @@ get_flashed_messages() %}
     class="btn btn-outline-danger btn-sm"
     >Delete Post</a
   >
-  {% endif%}
-  <br />
 
-  <br />
+  {% endif %}
+
+  <div class="forum" style="justify-content: space-between" ;>
+    <div class="icon" align="center" style="space-between: 200px">
+      <ion-icon name="eye">View</ion-icon> 121
+      <ion-icon name="thumbs-up">100</ion-icon>50
+      <ion-icon name="thumbs-down"></ion-icon>25
+      <ion-icon name="logo-discord">Comment</ion-icon> 3
+    </div>
+  </div>
 </div>
 <br />
-{%endfor%} {% endblock %}
+{% endfor %} {% endblock %}

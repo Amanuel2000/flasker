@@ -12,24 +12,24 @@ get_flashed_messages() %}
 </div>
 
 {% endfor %}
+<div class="vh-100 d-flex justify-content-center align-items-center">
+  <div class="col-md-6 p-5 shadow-sm border rounded-3 align-items-center">
+    <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
+      <h2 class="text-center mb-4 text-primary">Login</h2>
 
-<h1>Login!</h1>
-<br /><br />
+      <form method="POST">
+        {{ form.hidden_tag() }} {{ form.username.label(class="form-label") }} {{
+        form.username(class="form-control") }}
+        <br />
 
-<div class="shadow p-3 mb-5 bg-body rounded">
-  <form method="POST">
-    {{ form.hidden_tag() }} {{ form.username.label(class="form-label") }} {{
-    form.username(class="form-control") }}
-    <br />
+        {{ form.password.label(class="form-label") }} {{
+        form.password(class="form-control") }}
+        <br />
 
-    {{ form.password.label(class="form-label") }} {{
-    form.password(class="form-control") }}
-    <br />
-
-    <br />
-
-    {{ form.submit(class="btn btn-secondary") }}
-  </form>
+        {{form.submit (class = "btn btn-secondary")}} Don't have an account
+        <a href="{{url_for('register')}}"> Sign Up </a>
+      </form>
+    </div>
+  </div>
 </div>
-
 {% endblock %}

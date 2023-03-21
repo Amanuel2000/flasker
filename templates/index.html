@@ -1,20 +1,43 @@
 {% extends 'base.html' %} {% block content %}
+<h1>Hello, Welcome</h1>
+<div class="shadow p-3 mb-5 bg-body rounded">
+  <p>
+    This is your Message Forum that will help you to post your Burninig issues
+    and people will share
+  </p>
+  <p>
+    Forums are a powerful way of communication between large number of
+    individuals and it has been used in social media apps and other mass
+    populous communication mediums. Forums nowadays have a problem of being too
+    massive with different sub forums with different topics that it has gotten
+    hard to use especially the famous ones.
+  </p>
+  <img src="{{ url_for('static', filename='images/forum.JPG')}}" width="300" />
+</div>
 
-<h1>Hello World!</h1>
-
-<p>This is my first webpage!!!</p>
-
-<p>My name is {{ first_name }}</p>
-
-<p>{{ stuff|title }}</p>
-
-<h3>Favorite Pizza:</h3>
-
-{% for topping in favorite_pizza %} {% if topping == 41 %} {{ topping + 100
-}}<br />
-{% else %} {{ topping }}<br />
-{% endif %} {% endfor %}
-
+<div class="shadow p-3 mb-5 bg-body rounded">
+  <p>
+    Forums are a powerful way of communication between large number of
+    individuals and it has been used in social media apps and other mass
+    populous communication mediums. Forums nowadays have a problem of being too
+    massive with different sub forums with different topics that it has gotten
+    hard to use especially the famous ones. Social media forums also have a
+    grouping system that puts similar people with similar opinions on the same
+    group which creates echo chambers where only similar opinions between the
+    groups are shared, which is not a good way of discussion since discussion is
+    very useful when different opinions communicate with each other. On this
+    paper the final outcome of the project creates a forum site that is specific
+    to a certain topic and there are no groupings that create echo chambers. The
+    site tries to help on the mentioned problems by being useful to communicate
+    openly with different idea people and to have a shared understandable
+    knowledge between the different groups.
+  </p>
+</div>
+<div class="shadow p-3 mb-5 bg-body rounded">
+  <h3>Do you want to be part of the Discussion?</h3>
+  <h5>Get started here</h5>
+  <a href="{{ url_for('register')}}" class="btn btn-primary">Sign Up</a>
+</div>
 <br /><br />
 
 {% endblock %}
