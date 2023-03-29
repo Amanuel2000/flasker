@@ -550,3 +550,6 @@ class Users(db.Model, UserMixin):
     # create A String
     def __repr__(self):
         return '<Name %r>' % self.name
+
+if( __name__ == "__main__"):
+    app.run(debug=True)
