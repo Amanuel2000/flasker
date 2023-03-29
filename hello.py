@@ -70,6 +70,7 @@ def admin():
 
 @app.route('/search', methods=["POST"])
 def search():
+    name = None
     form = SearchForm()
     posts = Posts.query
     if form.validate_on_submit():
@@ -93,7 +94,7 @@ def register():
             # Hash the Password
             hashed_pw = generate_password_hash(form.password_hash.data)
             user = Users(username=form.username.data, name=form.name.data, email=form.email.data,
-                         password_hash=hashed_pw, favorite_color=form.favorite_color.data)
+                         password_hash=hashed_pw)
             db.session.add(user)
             db.session.commit()
         name = form.name.data
@@ -101,10 +102,9 @@ def register():
         form.username.data = ''
         form.email.data = ''
         form.password_hash.data = ''
-        form.favorite_color.data = ''
 
-        flash("Registered Successfully!")
-        return redirect(url_for('dashboard'))
+        flash("Registered Successfully!, Please continue login and access your dashboard")
+        return redirect(url_for('login'))
     else:
         return render_template("register.html", form=form)
 
@@ -150,7 +150,7 @@ def dashboard():
         name_to_update.name = request.form['name']
         name_to_update.email = request.form['email']
         name_to_update.username = request.form['username']
-        name_to_update.favorite_color = request.form['favorite_color']
+        # name_to_update.favorite_color = request.form['favorite_color']
         name_to_update.about_author = request.form['about_author']
 
         # Check for profile pic
@@ -200,6 +200,10 @@ def posts():
     return render_template("posts.html", posts=posts)
 
 
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
 # Create Delete route
 
 
@@ -244,6 +248,26 @@ def post(id):
 # Forum Comments
 
 
+@app.route("/create-comment/<post_id>", methods=['POST'])
+def create_comment(post_id):
+    form = CommmentForm()
+    if form.validate_on_submit():
+        comment = Comments(comment=form.comment.data)
+    if not text:
+        flash('Comment cannot be empty.', category='error')
+    else:
+        post = Posts.query.filter_by(id=post_id)
+        if post:
+            comment = Comments(
+                text=text, author=current_user.id, post_id=post_id)
+            db.session.add(comment)
+            db.session.commit()
+        else:
+            flash('Post does not exist.', category='error')
+
+    return render_template("post.html", post=post)
+
+
 @app.route('/posts/<int:id>')
 def comment(id):
     comments = Comments.query.order_by(Comments.date_commented)
@@ -258,7 +282,7 @@ def edit_post(id):
     if form.validate_on_submit():
         post.title = form.title.data
         # post.author = form.author.data
-        post.slug = form.slug.data
+        # post.slug = form.slug.data
         post.content = form.content.data
         # Update Database
         db.session.add(post)
@@ -269,7 +293,7 @@ def edit_post(id):
     if current_user.id == post.poster_id or current_user.id == 17:
         form.title.data = post.title
         # form.author.data =post.author
-        form.slug.data = post.slug
+        # form.slug.data = post.slug
         form.content.data = post.content
         return render_template('edit_post.html', form=form)
     else:
@@ -287,11 +311,10 @@ def add_post():
     if form.validate_on_submit():
         poster = current_user.id
         post = Posts(title=form.title.data, content=form.content.data,
-                     poster_id=poster, slug=form.slug.data)
+                     poster_id=poster)
         form.title.data = ''
         form.content.data = ''
-        form.author.data = ''
-        form.slug.data = ''
+        # form.author.data = ''
 
         # Add post to data base
 
@@ -343,7 +366,7 @@ def update(id):
     if request.method == "POST":
         name_to_update.name = request.form['name']
         name_to_update.email = request.form['email']
-        name_to_update.favorite_color = request.form['favorite_color']
+
         name_to_update.username = request.form['username']
 
         try:
@@ -373,7 +396,7 @@ def add_user():
             # Hash the Password
             hashed_pw = generate_password_hash(form.password_hash.data)
             user = Users(username=form.username.data, name=form.name.data, email=form.email.data,
-                         password_hash=hashed_pw, favorite_color=form.favorite_color.data)
+                         password_hash=hashed_pw)
             db.session.add(user)
             db.session.commit()
         name = form.name.data
@@ -381,7 +404,6 @@ def add_user():
         form.username.data = ''
         form.email.data = ''
         form.password_hash.data = ''
-        form.favorite_color.data = ''
 
         flash("User Added Successfully!")
     our_users = Users.query.order_by(Users.date_added)
@@ -479,7 +501,7 @@ class Posts(db.Model):
     content = db.Column(db.Text)
     # author = db.Column(db.String(255))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
-    slug = db.Column(db.String(255))
+
     # Foreign Key To Link Users (refer to primary key of the user)
     poster_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
@@ -504,7 +526,7 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String(120), nullable=False, unique=True)
     # password_hash = db.Column(db.String(120))
     # password_hash2 = db.Column(db.String(120))
-    favorite_color = db.Column(db.String(200))
+    # favorite_color = db.Column(db.String(200))
     about_author = db.Column(db.Text(200), nullable=True)
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     profile_pic = db.Column(db.String(200), nullable=True)

@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %} {% for message in
 get_flashed_messages() %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
+<div class="alert alert-success alert-dismissible fade show" role="alert">
   {{ message }}
   <button
     type="button"
@@ -19,9 +19,7 @@ get_flashed_messages() %}
     form.title(class="form-control") }}
     <br />
 
-    {{ form.slug.label(class="form-label") }} {{ form.slug(class="form-control")
-    }}
-    <br />
+   
 
     {{ form.content.label(class="form-label") }} {{
     form.content(class="form-control", rows="10") }}
